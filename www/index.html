@@ -1,0 +1,111 @@
+<!doctype html>
+
+<html ng-app="MaApp">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Ejemplo MEAN</title>
+	<!-- Cargamos bootstrap -->
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+	<!-- Cargamos angular -->
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.min.js"></script>
+	<!-- Cargamos el javascript de angular -->
+	<script src="server.js"></script>
+	<script src="js/controllers.js"></script>
+	<script src="js/controllers.js"></script>
+	<script src="js/login.js"></script>
+</head>
+
+<!DOCTYPE html>
+<html ng-app="loginRunRunners">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+
+        <title>RunRunners</title>
+        <!-- bootstrap -->
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <!-- ionic css -->
+        <link href="https://code.ionicframework.com/nightly/css/ionic.css" rel="stylesheet">
+        <script src="https://code.ionicframework.com/nightly/js/ionic.bundle.js"></script>
+
+        <link rel="stylesheet" href="css/login.css">
+        <!-- cordova script -->
+       
+        <!-- your app's script -->
+        <script type="text/javascript" src="lib/ionic/js/angular/angular-resource.js"></script>
+        <script src="js/login.js"></script>
+    </head>
+
+    <!-- 'starter' is the name of this angular module (js/app.js)-->
+    <body >
+        <ion-header-bar>
+            <nav id="navbarid" class="bar bar-header bar-stable" role="navigation">
+ 					<h1 class="title">Wellcome to RunRunners</h1>
+            </nav>
+        </ion-header-bar>
+        
+        <ion-content>
+            <div class="row rowsign">
+                <div class="col-25"></div>
+                <div class="col" ng-controller="userController as userCtrl">
+                    <section class="tab" ng-controller="TabController as tab">
+                        <ul class="nav nav-pills">
+                            <li ng-class="{ active: tab.isSet(1) }">
+                                <a ng-click="tab.setTab(1)">Sign In</a></li>
+                            <li ng-class="{ active: tab.isSet(2) }">
+                                <a ng-click="tab.setTab(2)">Sign Up</a></li>
+                        </ul>
+                        
+                        <br>
+                        
+                        
+                        <div ng-show="tab.isSet(1)">
+                            
+                            <form name="userFormSignIn" ng-submit="userFormSignIn.$valid && userCtrl.loginUser()" novalidate>
+                                <p></p>
+                                <label class="item item-input">
+                                  <input ng-minlength=4 placeholder="Username" 
+                                  			title="Username" ng-model="userCtrl.user.Username" type="text" required/>
+  										</label>
+  										<label class="item item-input">
+    										<input ng-minlength=8  placeholder="Password"
+                                           title="Password" ng-model="userCtrl.user.Password" type="password"/>
+  										</label>
+                                <br>
+             					 <input type="submit" class="button button-block button-balanced" value="Sign In"/>
+         						 <button class="button  button-block button-positive " ng-click="loginFacebook()">
+  											<span class="ion-social-facebook" style="font-size: 145%">   </span>Log with Facebook!
+									 </button>
+               				</form>
+                        </div>
+                        
+                        <div ng-show="tab.isSet(2)">
+                            <form name="userFormSignUp" ng-submit="userFormSignUp.$valid && userCtrl.addUser()" novalidate>
+                            <p></p>
+                                <fieldset class="form-group">
+                                    <input ng-minlength=4 class="form-control" placeholder="Name"
+                                           title="Name" ng-model="userCtrl.user.Name" type="text" required/>
+                                    <input ng-minlength=4 class="form-control" placeholder="Surname"
+                                           title="Surname" ng-model="userCtrl.user.Surname" type="text" required/>
+                                    <input ng-minlength=4 class="form-control" placeholder="Username"
+                                           title="Username" ng-model="userCtrl.user.Username" type="text" required/>
+                                    <input ng-minlength=8 class="form-control" placeholder="Password  (Min. 8 characters)"
+                                           title="Password" ng-model="userCtrl.user.Password" type="password" required/>
+                                    <input ng-minlength=4 class="form-control" placeholder="Email"
+                                           title="Email" ng-model="userCtrl.user.Email" type="email" required/>
+                                    <input type="submit" class="btn btn-primary pull-right" value="Create user"/>
+                                </fieldset>
+                            </form>
+                        </div>
+								<!--
+                        <a href="" class="btn" ng-click="loginFacebook()"><img src="./img/fblogin.png" width="154" height="22"></a>-->
+                    </section>
+                </div>
+                                <div class="col-25"></div>
+            </div>
+        </ion-content>
+
+
+    </body>
+</html>

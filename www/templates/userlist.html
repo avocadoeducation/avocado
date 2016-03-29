@@ -1,0 +1,21 @@
+<ion-view view-title="Usuarios">
+    <ion-content ng-init="loadUsers()">
+        <div class="list">
+            <div class="item item-input-inset">
+                <label class="item-input-wrapper" >
+                    <input type="text" placeholder="User Search" ng-model="searchText">
+                </label>
+            </div>
+            <ion-item >
+                <div class="list">
+                    <div class="item item-button-right" ng-repeat="user in users | filter:searchText">
+                        <h2><i class="ion-person"></i> {{user.Username}}</h2>
+                        <button class="button button-assertive" ng-click="deleteUser('{{u._id}}')">
+                            <i class="icon ion-log-out"></i>
+                        </button>
+                    </div>
+                </div>
+            </ion-item>
+        </div>
+    </ion-content>
+</ion-view>

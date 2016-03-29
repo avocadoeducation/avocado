@@ -19,7 +19,7 @@ module.exports = function (app) {
     findByID = function (req, res) {
         console.log("GET - /user/:id");
         //  var name = req.params.Name;
-        var id = jwt.decode(req.params.id, Secret);
+        var id = jwt.decode(req.params.id);
         User.findOne({_id: id.iss}, function (err, user) {
             if (!user) {
                 res.send(404, 'No se encuentra este nombre de usuario, revise la petición');
@@ -70,7 +70,7 @@ module.exports = function (app) {
                     res.send(404, 'Password error');
                 } else {
                     var expires = moment().add(2, 'days').valueOf();
-                    var token = jwt.encode({iss: user._id, exp: expires}, Secret);
+                    var token = jwt.encode({iss: user._id, exp: expires});
                     res.send(200, token);
                 }
             }
@@ -101,7 +101,7 @@ module.exports = function (app) {
                 user.save(function (err) {
                     if (!err) {
                         var expires = moment().add(2, 'days').valueOf();
-                        var token = jwt.encode({iss: user._id, exp: expires}, Secret);
+                        var token = jwt.encode({iss: user._id, exp: expires});
                         res.send(200, token);
                     } else {
                         console.log(err);
@@ -125,7 +125,7 @@ module.exports = function (app) {
     validateToken = function(req, res){
         console.log('Validate Token');
         var date = Date.now();
-        var id = jwt.decode(req.params.id, Secret);
+        var id = jwt.decode(req.params.id);
         if(id.exp >= date){
             res.send(200,'OK');
         }else{
@@ -136,7 +136,7 @@ module.exports = function (app) {
     //PUT - Update a register User already exists
     updateUser = function (req, res) {
         console.log("PUT - /user/:Username");
-        var id = jwt.decode(req.params.id, Secret);
+        var id = jwt.decode(req.params.id);
         User.findOne({_id: id.iss}, function (err, user) {
             if (!user) {
                 res.send(404, 'Not Found');
@@ -232,7 +232,7 @@ module.exports = function (app) {
     //DELETE - Delete a User with specified Name
     deleteUser = function (req, res) {
         console.log("DELETE -/user/:id");
-        var id = jwt.decode(req.params.id, Secret);
+        var id = jwt.decode(req.params.id);
         User.findOne({"_id": id.iss}, function (err, user) {
             if (!user) {
                 res.send(404, 'Not Found');
@@ -253,150 +253,9 @@ module.exports = function (app) {
         });
     };
 
-    findRaces = function (req, res) {
-        console.log('Find Races');
-        var id = jwt.decode(req.params.id, Secret);
-        User.findOne({_id: id.iss}, function (err, user) {
-            if (!user) {
-                res.send(404, 'User Not Found');
-            }
-            else {
-                if (err) res.send(500, 'Mongo Error');
-                else {
-                    var races = user.Races;
-                    console.log(races);
-                    res.send(200, races);
-                }
-            }
-        });
-    };
-
-    findGroups = function (req, res) {
-        console.log('Find Groups');
-        var id = jwt.decode(req.params.id, Secret);
-        User.findOne({_id: id.iss}, function (err, user) {
-            if (!user) {
-                res.send(404, 'User Not Found');
-            }
-            else {
-                if (err) res.send(500, 'Mongo Error');
-                else {
-                    var groups = user.Groups;
-                    res.send(200, groups);
-                }
-            }
-        });
-    };
-
-    userStats = function (req, res) {
-        console.log('User Stats');
-        var id = jwt.decode(req.body._id, Secret);
-        User.findOne({_id: id.iss}, function (err, user) {
-            if (!user) {
-                res.send(404, 'User Not Found');
-            } else {
-                if (err) {
-                    res.send(500, 'Mongo Error');
-                }
-                else {
-                    var Stats = {
-                        Time: {type: Number},
-                        Distance: {type: Number}
-                    };
-                    for (i = 0; i < user.Races.length; i++) {
-                        Stats.Time = Stats.Time + user.Races[i].Data.Time;
-                        Stats.Distance = Stats.Distance + user.Races[i].Data.Distance;
-                    }
-                    res.send(200, Stats);
-                }
-            }
-        });
-    };
-
-    findRacePending = function (req, res) {
-        console.log('Races Pending');
-        var id = jwt.decode(req.params.id, Secret);
-        var races = [];
-        User.findOne({_id: id.iss}, function (err, user) {
-            if (!user) {
-                res.send(404, 'User Not found');
-            }
-            else {
-                var result = 0;
-                for (j = 0; j < user.Races.length; j++) {
-                    if (user.Races[j].State === 'Pending') {
-                        result++;
-                    }
-                }
-                for (i = 0; i < user.Races.length; i++) {
-                    if (user.Races[i].State === 'Pending') {
-                        Race.find({_id: user.Races[i]._id}, function (err, race) {
-                            if (err) res.send(500, 'Mongo Error');
-                            else {
-                                races.push(race);
-                                if (result == races.length) {
-                                    res.send(races);
-                                }
-                            }
-                        });
-                    }
-                }
-            }
-
-        });
-
-    };
-
-    findRacesDone = function(req, res){
-        var id = jwt.decode(req.params.id, Secret);
-        User.findOne({_id:id.iss}, function(err, user){
-            if(!user){
-                res.send(404,'User Not Found');
-            }else{
-                var races = [];
-                for(i = 0;i<user.Races.length;i++){
-                    if(user.Races[i].State == 'Done'){
-                        races.push(user.Races[i]);
-                    }
-                }
-                res.send(races);
-            }
-        })
-    };
-
-
-    raceDone = function (req, res) {
-        console.log('Race Done');
-        var id = jwt.decode(req.params.id, Secret);
-        User.findOne({_id: id.iss}, function (err, user) {
-            if (!user) {
-                res.send(404, 'User Not Found');
-            } else {
-                var race = false;
-                for (i = 0; i < user.Races.length; i++) {
-                    if (user.Races[i]._id.equals(req.body.raceId)) {
-                        race = true;
-                        user.Races[i].Data.Time = req.body.Time;
-                        user.Races[i].State = 'Done';
-                        user.Races[i].Data.Distance = req.body.Distance;
-                        user.Races[i].Data.Tour = req.body.Tour;
-                        user.save(function (err) {
-                            if (err) res.send(500, 'Mongo Error');
-                        });
-                        break;
-                    }
-
-                }
-                if (!race) {
-                    res.send(400, 'No Race');
-                }
-            }
-        });
-    };
-
     adminUser = function(req, res){
         console.log('GET- Admin User');
-        var id = jwt.decode(req.params.id, Secret);
+        var id = jwt.decode(req.params.id);
         User.findOne({_id:id.iss}, function(err, user){
             if(err) res.send(500,'Mongo Error');
             else {
@@ -420,16 +279,7 @@ module.exports = function (app) {
     app.post('/user/auth', authenticate);
     app.put('/user/:id', updateUser);
     app.delete('/user/:id', deleteUser);
-    app.get('/user/:id/races', findRaces);
-    app.get('/user/:id/groups', findGroups);
-    app.get('/user/username/:Username', findUsername);
-    app.get('/user/stats/:id', userStats);
-    app.get('/user/pending/:id', findRacePending);
-    app.put('/user/race/:id', raceDone);
     app.get('/user/validate/:id', validateToken);
     app.get('/user/admin/:id', adminUser);
-    app.get('/user/done/:id',findRacesDone);
-
-
 
 };

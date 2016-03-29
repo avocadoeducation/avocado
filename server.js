@@ -1,32 +1,25 @@
-var express = require("express"),
-    http    = require("http"),
-    server  = http.createServer(app),
-    passport = require('passport'),
-    session = require('express-session'),
-    mongoose = require('mongoose');
-	
-var app = express();
+// Inicialización
+var express  = require('express');
+var app      = express(); 					// Utilizamos express
+var mongoose = require('mongoose'); 				// mongoose para mongodb
+var port  	 = process.env.PORT || 8080; 			// Cogemos el puerto 8080
 
+// Configuracion
+mongoose.connect('mongodb://localhost:27017/MeanExample'); 	// Hacemos la conexión a la base de datos de Mongo con nombre "MeanExample"
 
-//habilita los archivos secundarios de resources y js necesarios de /web
-//app.use(express.static('web'));
-app.use(express.static('www'));
-
-//de momento redirige a wall, a la espera de login
 app.get('/', function(req, res) {
     res.sendfile('./www/index.html');});
 
-routes = require('./routes/users')(app);
-
-mongoose.connect('mongodb://localhost:27017/Avocado', function(err, res) {
-    if(err) {
-        console.log('ERROR: connecting to Database. ' + err);
-    } else {
-        console.log('Connected to Database');
-    }
-});
-	
-app.listen(8080, function(){
-  console.log ('Servidor escuchando en puerto 8080');
+app.configure(function() {
+	app.use(express.static(__dirname + '/angular')); 		
+	app.use(express.logger('dev')); 			// activamos el log en modo 'dev'
+	app.use(express.bodyParser());
+	app.use(express.methodOverride());
 });
 
+// Cargamos los endpoints
+require('./routes/users.js')(app);
+
+// Cogemos el puerto para escuchar
+app.listen(port);
+console.log("APP por el puerto " + port);

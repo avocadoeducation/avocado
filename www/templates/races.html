@@ -1,0 +1,153 @@
+<ion-view view-title="Races">
+    <ion-header-bar class="bar-assertive item-input-inset">
+        <h1 class="title">Races</h1>
+    </ion-header-bar>
+    <ion-content ng-init="loadRaces()">
+        <div class="list">
+        <div class="item item-input-inset">
+            <label class="item-input-wrapper" >
+              <input type="text" placeholder="Races Search" ng-model="searchText">
+            </label>
+        </div>
+          <div class="item item-divider">
+            Mis Carreras
+          </div>
+        
+        <ion-item ng-repeat="r in ownraces | filter:searchText" href="#/map/race/{{r._id}}">
+
+        <div class="card">
+            <div class="item" style="background-color: #D2F8D2">
+                <div class="row">
+                    <div class="col-20">
+                        <h1>{{r.Distance}} Km</h1>
+                    </div>
+                    <div class="col">
+                        <h2>{{r.Name}}</h2>
+                        <p>{{r.Level}}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                  <a class="item" href="#"><i class="icon ion-android-pin"></i>
+               		Lugar de salida: {{r.LocationIni}}
+           			</a>
+                </div>
+                <div class="col">
+                   <a class="item" href="#"><i class="icon ion-clock"></i>
+              			Fecha: {{r.Date | limitTo: 15}} - {{r.Time | date: "HH:mm"}} 
+            		</a>
+                </div>
+                <div class="col">
+                   <a class="item" href="#"><i class="icon ion-speakerphone"></i>
+              			Administrador: {{r.Admin}}
+            		</a>
+                </div>
+           	</div>
+
+         <div class="item tabs  tabs-icon-left">
+             <a class="tab-item" href="#/map/users/race/{{r._id}}">
+              <i class="icon ion-android-contacts"></i>
+              {{r.Users.length}} Members
+            </a>
+
+
+            <a class="tab-item" ng-click="deleteUser(r._id)" style="color: red;">
+              <i class="icon ion-minus-circled"></i>
+              Abandonar Carrera
+            </a>
+            <a class="tab-item" ng-click="openDeleteRaceModal(r._id,r.Admin)">
+              <i class="icon ion-trash-b"></i>
+              Borrar Carrera
+            </a>
+          </div>
+          <div ng-click="startRace(r._id)" class="item tabs  tabs-icon-left">
+             <i class="icon  ion-android-alarm-clock"> Start Race</i>
+          </div>
+        </div>
+
+            </ion-item>
+
+          <div class="item item-divider">
+            Otras Carreras
+          </div>
+          
+        <ion-item ng-repeat="r in otherraces | filter:searchText" href="#/map/race/{{r._id}}">
+        
+            <div class="card">
+                <div class="item item-avatar" style="background-color: #F8EBD2">
+                    <div class="row">
+                        <div class="col-20">
+                            <h1>{{r.Distance}} Km</h1>
+                        </div>
+                        <div class="col">
+                            <h2>{{r.Name}}</h2>
+                            <p>{{r.Level}}</p>
+                        </div>
+                    </div>
+                </div>
+            <div class="row">
+                <div class="col">
+                  <span class="item" href="#"><i class="icon ion-android-pin"></i>
+               		Lugar de salida: {{r.LocationIni}}
+           			</span>
+                </div>
+                <div class="col">
+                   <a class="item" href="#"><i class="icon ion-android-alarm-clock"></i>
+              			Fecha: {{r.Date | limitTo: 15}} - {{r.Time | date: "HH:mm"}} 
+            		</a>
+                </div>
+                <div class="col">
+                   <a class="item" href="#"><i class="icon ion-speakerphone"></i>
+              			Administrador: {{r.Admin}}
+            		</a>
+                </div>
+           	</div>
+
+             <div class="item tabs  tabs-icon-left">
+                 <a class="tab-item" href="">
+                  <i class="icon ion-android-contacts"></i>
+                  {{r.Users.length}} Members
+                </a>
+
+                <a class="tab-item" href="">
+                  <i class="icon ion-chatbox"></i>
+                  Messages {{r.Messages.length}}
+                </a>
+                <a class="tab-item" ng-click="addUser(r._id)" style="color: green;">
+                  <i class="icon ion-plus-circled"></i>
+                  Apuntarse a carrera
+                </a>
+
+              </div>
+            </div>
+
+            </ion-item>
+        </div>
+     
+            
+    </ion-content>
+</ion-view>
+
+   <script id="deleteRace.html" type="text/ng-template">
+                <ion-modal-view>
+                    <ion-header-bar class="bar bar-header bar-dark">
+                        <h1 class="title">Deleting Race</h1>
+
+                    </ion-header-bar>
+                    <ion-content align="center">
+                        <div class="row">
+                        	<div class="col-5"></div>
+                        	<div class="col">
+                        		<h1> <i class="icon ion-alert-circled " style="color:red;"></i> Are you sure?</h1>
+                        		<p></p>
+                        		<h3>All messages wil be deleted and this action can't be undone.</h3>
+                        		<br>
+                        		<button class="button button-block button-balanced" ng-click="closeModal()">No</button>
+                        		<button class="button button-block button-outline button-assertive" ng-click="deleteRace()">Yes</button>
+									</div>
+                        	<div class="col-5"></div>
+                        </div>									
+                    </ion-content>
+                </ion-modal-view>
+     </script>

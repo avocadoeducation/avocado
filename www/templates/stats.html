@@ -1,0 +1,66 @@
+
+<ion-view view-title="Stats">
+    <ion-header-bar class="bar-dark item-input-inset">
+        <h1 class="title">Stats</h1>
+    </ion-header-bar>
+    <ion-content>
+        <div class="col-md-4" align="center"  >
+            <br>
+            <h3>Global statistics</h3>
+            <br>
+            <div ng-init="getstats()" id="global" ng-repeat="global in globals">
+                <div><b > Distance:</b><a> {{global.Distance}}</a></div>
+                <div><b > Time:</b><a> {{global.Time}}</a></div>
+            </div>
+        </div>
+        <div class="col-md-4" align="center" >
+            <br>
+            <h3>Graph Race</h3>
+            <br>
+            <canvas id="bar" class="chart chart-line" data="graph.data" labels="graph.labels" series='graph.series' height="50"></canvas>
+        </div>
+
+        <div class="col-md-4" align="center" id="races">
+            <h3>Races Done/Pending</h3>
+            <br>
+            <div>
+                <b> Races Done:</b><br>
+            </div>
+
+            <div ng-init='getracesdone()' >
+                <div class="list card">
+                    <ion-item ng-repeat= "done in dones">
+                        <a class="item item-thumbnail-left">
+                            <img ng-src="/img/race.jpg">
+                            <h2>{{ done.Race }}</h2>
+                            <h4>{{ done.Data.Distance }}km - Time: {{done.Data.Time}}</h4>
+
+                            <button class="button button-small button-energized"  ng-click="grafica(done)"> Stadistics</button>
+                        </a>
+                </div>
+            </div>
+
+            <div>
+                <b > Races Pending:</b><br>
+
+                <div ng-init='getracespending()'  >
+
+                    <div class="list card">
+                        <ion-item ng-repeat= "pending in pendings">
+                            <a class="item item-thumbnail-left">
+                                <img ng-src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcSNkuzfE2hrhBo2srKUKjgLfe24wECjbsz4bbsvY5jxTrZWHYOegA">
+                                <h2>{{ pending.Name }}</h2>
+                                <h4>{{ pending.Distance }}km - Level: {{pending.Level}}</h4>
+                                <h4>{{pending.Type}}</h4>
+
+                            </a>
+                    </div>
+                    <!--<ul ng-repeat="user in users">-->
+
+                    <!--  </ul>-->
+                </div>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>
+

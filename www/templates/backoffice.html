@@ -1,0 +1,133 @@
+<ion-view view-title="Backoffice">
+    <ion-header-bar>
+        <nav id="navbarid" class="bar bar-header bar-stable bar-dark" role="navigation">
+            <h1 class="title">Backoffice RunRunners</h1>
+        </nav>
+    </ion-header-bar>
+    <ion-content>
+        <div class="row rowsign">
+
+            <div class="col col-50 col-offset-25">
+                <section class="tab" ng-controller="tabCtrlBackoffice as tab">
+                    <div class="button-bar">
+                        <a ng-class="{ active: tab.isSet(1) }" class="button button-block button-small button-outline button-light" ng-click="tab.setTab(1)">Users</a>
+                        <a ng-class="{ active: tab.isSet(2) }" class="button button-block button-small button-outline button-light" ng-click="tab.setTab(2)">Races</a>
+                        <a ng-class="{ active: tab.isSet(3) }" class="button button-block button-small button-outline button-light" ng-click="tab.setTab(3)">Messages</a>
+                    </div>
+                    <div ng-show="tab.isSet(1)">
+                        <div class="container theme-showcase" role="main">
+                            <div class="row">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <h4>
+                                                    <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                                                    User Panel
+                                                </h4>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <table class="table">
+                                        <tr>
+                                            <th >Username</th>
+                                            <th >Name</th>
+                                            <th >Surname</th>
+                                            <th >Email</th>
+                                            <th >Delete</th>
+                                        </tr>
+                                        <tr ng-repeat="user in users | filter:search | startFrom:(currentPage-1)*entryLimit | limitTo:entryLimit">
+                                            <th>{{user.Username}}</th>
+                                            <th>{{user.Name}}</th>
+                                            <th>{{user.Surname}}</th>
+                                            <th>{{user.Email}}</th>
+                                            <th>
+                                                <button type="button" class="btn " ng-click="clickToDelete(user._id)">Delete</button>
+                                            </th>
+                                        </tr>
+                                    </table>
+
+                                </div>
+                                <pagination page="currentPage" max-size="noOfPages" total-items="totalItems"
+                                            items-per-page="entryLimit"></pagination>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div ng-show="tab.isSet(2)">
+                        <div class="container theme-showcase" role="main">
+                            <div class="row">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <div class="row">
+                                            <div class="col-sm-3"><h4>Race Panel</h4>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <table class="table">
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>Level</td>
+                                            <td>Distance</td>
+                                            <td>Date</td>
+                                        </tr>
+                                        <tr ng-repeat="object in objects">
+
+                                            <td>{{object.Name}}</td>
+                                            <td>{{object.Level}}</td>
+                                            <td>{{object.Distance}}</td>
+
+                                            <th>
+                                                <button type="button" class="btn " ng-click="deleteObjectRace(object._id)">Delete</button>
+                                            </th>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div ng-show="tab.isSet(3)">
+                        <div class="container theme-showcase" role="main">
+                            <div class="row">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <div class="row">
+                                            <div class="col-sm-3"><h4>Message Panel</h4>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <table class="table">
+                                        <tr class="info">
+                                            <h4><th class="text-center">ID'S</th>
+                                                <th class="text-center">USERNAME</th>
+                                                <th class="text-center">TEXT</th></h4>
+                                        </tr>
+                                        <tr ng-repeat="message in messages | filter:searchText | filter:search:strict track by $index | orderBy : 'id'" ng-click="selectObjectMessage(message)">
+                                            <td><h6><p>id: {{ message._id }}</p>
+                                                <p>Parent: {{ message.ParentID }}</p>
+                                                <p>Answer of: {{ message.ParentID }}</p></h6></td>
+                                            <td class="text-center">{{ message.Username }}</td>
+                                            <td class="text-center">{{ message.Text }}</td>
+
+                                            <th>
+                                                <button type="button" class="btn " ng-click="borrarMessage(newMessage)">Delete</button>
+                                            </th>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+        </div>
+    </ion-content>
+</ion-view>

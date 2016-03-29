@@ -1,0 +1,78 @@
+<ion-view view-title="Group">
+	<ion-content ng-init="loadMessage()">
+		<div class="list card">
+			<div class="card" ng-repeat="mes in messages track by $index">
+				<div class="item item-divider">
+					<div class="row">
+						<div class="col">
+							<h3>{{mes.Username}} dice:</h3>
+						</div>
+						<div class="col"></div>
+						<div class="col-20" ng-click="openAnswerModal(mes._id)">
+					  		<h3><i class="icon ion-reply" style="color: green;"> Responder</i></h3>
+						</div>
+						<div class="col-15" ng-click="deleteMessage(mes._id)">
+					  		<h3><i class="icon ion-trash-b" style="color: red;"> Borrar</i></h3>
+						</div>
+					</div>
+				</div>
+				<div class="item item-text-wrap">
+					{{mes.Text}}
+				</div>
+				
+				<div ng-repeat="a in mes.Answers">
+					<div class="item item-divider">
+						<div class="row">
+							<div class="col">
+								<h3><i class="ion-ios-redo"></i>  {{a.Username}} responde:</h3>
+							</div>
+							<div class="col"></div>
+							<div class="col-15" ng-click="deleteAnswer(a._id,m._id)">
+								<h3><i class="icon ion-trash-b" style="color: red;"> Borrar</i></h3>
+							</div>
+						</div>
+					</div>
+					<div class="item item-text-wrap">
+						{{a.Answer}}
+					</div>
+				</div>
+			</div>
+			<div class="list">
+			  <div class="row">
+				<div class="col-5"></div>
+				<div class="col">
+				<label class="item item-input item-text-wrap">
+					<input type="text" placeholder="Escribe tu mensaje aqui" required ng-model="postMessage.text">
+				</label>
+				<button class="button button-block button-calm" ng-click="addMessage()">Responder</button>
+				</div>
+				<div class="col-5"></div>				
+			  </div>		
+			</div>
+		</div>
+	</ion-content>
+</ion-view>
+
+
+<script id="answer.html" type="text/ng-template">
+	<ion-modal-view style="height: 250px">
+		<ion-header-bar class="bar bar-header bar-dark">
+			<h1 class="title">Responder</h1>
+		  	<button class="button button-clear" ng-click="closeAnswerModal()"><i class="icon ion-close"></i></button>
+		</ion-header-bar>
+
+		<ion-content >
+
+			<div class="row">
+				<div class="col-5"></div>
+				<div class="col">
+					<label class="item item-input item-stacked-label">
+						<textarea placeholder="Escribe tu respuesta aqui" rows="7" cols="10" ng-model="postAnswer.text"></textarea>
+					</label>
+					<button class="button button-block button-calm" ng-click="postAnswer()">Responder</button>
+				</div>
+				<div class="col-5"></div>
+		  	</div>
+		</ion-content>
+	</ion-modal-view>
+</script>

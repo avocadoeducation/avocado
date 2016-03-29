@@ -1,3 +1,4 @@
+
 angular.module('login.controller', [])
 
 .controller('loginCtrl', function ($http, $scope,$location, $window){

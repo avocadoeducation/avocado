@@ -1,0 +1,188 @@
+<ion-view view-title="Groups">
+    <ion-header-bar class="bar-assertive item-input-inset">
+        <h1 class="title">Groups</h1>
+    </ion-header-bar>
+    <ion-content ng-init="loadGroups()">
+        <div class="list">
+            <div class="item item-input-inset">
+                <label class="item-input-wrapper" >
+                  <input type="text" placeholder="Group Filter" ng-model="searchText">
+                </label>
+                <button class="button button-small" ng-click="openNewGroupModal()">
+                  Create New Group
+                </button>
+            </div>
+            <div class="item item-divider">
+                Mis Grupos
+            </div>
+
+            <ion-item ng-repeat="g in owngroups | filter:searchText" href="#/map/group/{{g._id}}">
+                <div class="card">
+                    <div class="item item-avatar" style="background-color: #D2F8D2">
+
+                                <h2>{{g.Name}}</h2>
+                                <p>{{g.Level}}</p>
+                    </div>
+
+                    <div class="item item-body">
+                        <p>{{ g.Info}}</p>
+                        <p><a href="#" class="subdued">Administrador: {{g.Admin}}</a></p>
+                    </div>
+
+                    <div class="item tabs  tabs-icon-left">
+                        <a class="tab-item" href="#/map/users/groups/{{g._id}}">
+                              <i class="icon ion-android-contacts"></i>
+                        </a>
+                        <a class="tab-item" href="#/map/groupraces/{{g._id}}">
+                              <i class="icon ion-android-walk"></i>
+                        </a>
+                        <a class="tab-item" ng-click="deleteUser(g._id)" style="color: red;">
+                            <i class="icon ion-log-out"></i>
+                        </a>
+                        <a class="tab-item" ng-click="openDeleteGroupModal(g._id, g.Admin)" style="color: red;">
+                            <i class="icon ion-trash-b"></i>
+                        </a>
+                    </div>
+                </div>
+				</ion-item>
+            <div class="item item-divider">
+                Otros Grupos
+            </div>
+
+            <ion-item ng-repeat="g in othergroups | filter:searchText">
+                <div class="card">
+                    <div class="item item-avatar" style="background-color: #F8EBD2">
+                        <h2>{{g.Name}}</h2>
+                        <p>{{g.Level}}</p>
+                    </div>
+
+                    <div class="item item-body">
+                        <p>{{ g.Info}}</p>
+                        <p><a href="#" class="subdued">Administrador: {{g.Admin}}</a></p>
+                    </div>
+
+                    <div class="item tabs tabs-secondary tabs-icon-left">
+                        <a class="tab-item" href="#">
+                              <i class="icon ion-android-contacts"></i>
+                        </a>
+                        <a class="tab-item">
+                              <i class="icon ion-android-walk"></i>
+                        </a>
+                        <a class="tab-item " ng-click="addUser(g._id)" style="color: green;">
+                              <i class="icon ion-log-in"></i>
+                        </a>
+                    </div>
+                </div>
+            </ion-item>
+        </div>
+    </ion-content>
+</ion-view>
+
+
+     <script id="NewGroupModal.html" type="text/ng-template">
+        <ion-modal-view style="height: 500px">
+           <ion-header-bar class="bar bar-header bar-dark">
+              <h1 class="title">Create New Group</h1>
+              <button class="button button-clear" ng-click="closeModal()"><i class="icon ion-close"></i></button>
+           </ion-header-bar>
+           
+           <ion-content >
+           
+
+            <div class="row">
+					<div class="col-5"></div>
+					<div class="col">
+					
+              		  <label class="item item-input">
+    							<input type="text" placeholder="Group Name" ng-model="newgroup.Name" required>
+  						  </label>
+  						  <label class="item item-input">
+    							<input type="text" placeholder="Info" ng-model="newgroup.Info" required>
+  						  </label>
+  						  <label class="item item-input item-select" >
+    							<div class="input-label">
+      							    Level
+    							</div>
+    							<select ng-model="newgroup.Level">
+      							<option selected>Beginner</option>
+      							<option>Initiated</option>
+      							<option>Professional</option>
+    							</select>
+  						  </label>
+	  					  <label class="item item-input">
+    							<input type="text" placeholder="Location?" ng-model="newgroup.Location">
+  						  </label>
+					
+						<button class="button button-block button-calm" ng-click="postNewGroup()">Crear Nuevo Grupo</button>
+					</div>
+					<div class="col-5"></div>				
+			  </div>	
+			  
+         </ion-content>
+       </ion-modal-view>
+    </script>
+    
+    <script id="deleteGroup.html" type="text/ng-template">
+                <ion-modal-view>
+                    <ion-header-bar class="bar bar-header bar-dark">
+                        <h1 class="title">Deleting Group</h1>
+
+                    </ion-header-bar>
+                    <ion-content align="center">
+                        <div class="row">
+                        	<div class="col-5"></div>
+                        	<div class="col">
+                        		<h1> <i class="icon ion-alert-circled " style="color:red;"></i> Are you sure?</h1>
+                        		<p></p>
+                        		<h3>All messages wil be deleted and this action can't be undone.</h3>
+                        		                        		<br>
+                        		<button class="button button-block button-balanced" ng-click="closeModal()">No</button>
+                        		<button class="button button-block button-outline button-assertive" ng-click="deleteGroup()">Yes</button>
+                            </div>
+                        	<div class="col-5"></div>
+                        </div>
+                    </ion-content>
+                </ion-modal-view>
+     </script>
+    <script id="EditGroupModal.html" type="text/ng-template">
+        <ion-modal-view style="height: 500px">
+           <ion-header-bar class="bar bar-header bar-dark">
+              <h1 class="title">Edit Group</h1>
+              <button class="button button-clear" ng-click="closeModal()"><i class="icon ion-close"></i></button>
+           </ion-header-bar>
+           
+           <ion-content >
+           
+
+            <div class="row">
+					<div class="col-5"></div>
+					<div class="col">
+					
+              		  <label class="item item-input">
+    							<input type="text" placeholder="Group Name" ng-model="editgroup.Name"required>
+  						  </label>
+  						  <label class="item item-input">
+    							<input type="text" placeholder="Info" ng-model="editgroup.Info" required>
+  						  </label>
+  						  <label class="item item-input item-select" >
+    							<div class="input-label">
+      							Level
+    							</div>
+    							<select ng-model="editgroup.Level">
+      							<option selected>Beginner</option>
+      							<option>Initiated</option>
+      							<option>Professional</option>
+    							</select>
+  						  </label>
+	  					  <label class="item item-input">
+    							<input type="text" placeholder="City" ng-model="editgroup.Location">
+  						  </label>
+					
+						<button class="button button-block button-calm" ng-click="editGroup()">Editar Grupo</button>
+					</div>
+					<div class="col-5"></div>				
+			  </div>	
+			  
+         </ion-content>
+       </ion-modal-view>
+    </script>

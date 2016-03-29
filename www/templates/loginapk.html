@@ -1,0 +1,72 @@
+<ion-view view-title="Login">
+    <ion-header-bar>
+        <nav id="navbarid" class="bar bar-header bar-stable bar-dark" role="navigation">
+            <h1 class="title">Wellcome to RunRunners</h1>
+        </nav>
+    </ion-header-bar>
+    <ion-content>
+        <div class="row rowsign">
+
+            <div class="col col-50">
+                <section class="tab" ng-controller="tabCtrl as tab">
+                    <div align="center">
+                        <a><img align= "c" src="./img/runrunners.png"></a>
+                    </div>
+
+                    <br>
+                    <div class="button-bar">
+                        <a ng-class="{ active: tab.isSet(1) }" class="button button-block button-small button-outline button-light" ng-click="tab.setTab(1)">Sign In</a>
+                        <a ng-class="{ active: tab.isSet(2) }" class="button button-block button-small button-outline button-light" ng-click="tab.setTab(2)">Sign Up</a>
+                    </div>
+                    <div ng-show="tab.isSet(1)">
+                        <form name="userFormSignIn" ng-submit="userFormSignIn.$valid && loginUser()" novalidate>
+                            <fieldset class="form-group">
+                                <input ng-minlength=4 class="form-control" placeholder="Username"
+                                       title="Username" ng-model="user.Username" type="text" required/>
+                                <input ng-minlength=8 class="form-control" placeholder="Password"
+                                       title="Password" ng-model="user.Password" type="password"/>
+
+                            </fieldset>
+                            <input type="submit" class="button button-small button-block button-energized"  value="Sign In"/>
+                        </form>
+                    </div>
+
+                    <div ng-show="tab.isSet(2)">
+                        <form name="userFormSignUp" ng-submit="userFormSignUp.$valid && addUser()" novalidate>
+                            <p></p>
+                            <fieldset class="form-group">
+                                <input ng-minlength=4 class="form-control" placeholder="Name"
+                                       title="Name" ng-model="user.Name" type="text" required/>
+                                <input ng-minlength=4 class="form-control" placeholder="Surname"
+                                       title="Surname" ng-model="user.Surname" type="text" required/>
+                                <input ng-minlength=4 class="form-control" placeholder="Username"
+                                       title="Username" ng-model="user.Username" type="text" required/>
+                                <input ng-minlength=8 class="form-control" placeholder="Password  (Min. 8 characters)"
+                                       title="Password" ng-model="user.Password" type="password" required/>
+                                <input ng-minlength=4 class="form-control" placeholder="nombre@dominio"
+                                       title="Email" ng-model="user.Email" type="email" required/>
+                                <input class="form-control" placeholder="Birthdate"
+                                       title="Birthdate" ng-model="user.Birthdate" type="Date" required/>
+                                <p>Level
+                                <select ng-model="user.Level" ng-init="user.Level='Beginner'">
+                                    <option required selected value="Beginner">Beginner</option>
+                                    <option required value="Medium">Medium</option>
+                                    <option required value="High">High</option>
+                                </select></p>
+                                <p>Gender
+                                    <select  ng-model="user.Gender" ng-init="user.Gender='male'">
+                                        <option required selected value="male">male</option>
+                                        <option required value="female">female</option>
+                                    </select></p>
+
+
+                            </fieldset>
+                            <input type="submit" class="button button-small button-block button-balanced" value="Create user"/>
+                        </form>
+                    </div>
+                </section>
+            </div>
+
+        </div>
+    </ion-content>
+</ion-view>

@@ -1,0 +1,173 @@
+<ion-view title="Races Map">
+    <ion-content class="has-header padding">
+        <div id="map_canvas" ng-init="initialize()">
+            <app-map style="height:475px;margin:12px;box-shadow:0 5px 25px black;"
+                     id="map-canvas"
+                     center="basel"
+                     markers="whoiswhere">
+            </app-map>
+        </div>
+
+        <div class="row">
+            <div class="col"><br>
+                <div class="item item-input-inset">
+                    <label class="item-input-wrapper" >
+                        <i class="icon ion-search placeholder-icon"></i>
+                        <input type="text" placeholder="Race name..." ng-model="searchText">
+                    </label>
+
+                    <button class="button icon-left ion-speedometer" ng-click="openModalRace()">Create New Race</button>
+                </div>
+
+                <div class="list card">
+                    <div class="bar bar-header bar-balanced">
+                        <h1 class="title">Next Race</h1>
+                    </div><br><br>
+                    <ion-item ng-repeat= "r in races | filter:searchText | limitTo:5">
+                        <a class="item item-thumbnail-left">
+                            <img ng-src="/img/race.jpg">
+                            <h2>Nombre: {{ r.Name }}</h2>
+                            <h4>Distance: {{ r.Distance }} km - Level: {{r.Level}}</h4>
+                            <h4>Time: {{ r.Time | date: "HH:mm"}}</h4>
+                            <h4>Tipo: {{ r.Type }}</h4>
+                            <h4>Starts at: {{ r.Date| limitTo:15 }}</h4>
+                            <h4>Start place: {{ r.LocationIni }} </h4>
+                            <h4>End place: {{ r.LocationFin }}</h4>
+                            <button class="button button-light" id="mostrar" ng-click="Route(r)"><i class="icon ion-search"></i> Ver ruta </button>
+                            <button class="button button-light" id="rrr" ng-click="info32()"><i class="icon ion-earth"></i> Ver carreras </button>
+                            <button class="button button-light" ng-click="openModalUpdate(r)"><i class="icon ion-settings"></i> Update </button>
+                        </a>
+
+                </div>
+
+
+                <!--div class="list card">
+                    <div class="bar bar-header bar-calm">
+                       <h1 class="title">Other Races near to you</h1>
+                    </div><br><br>
+                   <<ion-item ng-repeat= "r in races | filter:searchText | limitTo:5">
+                        <a class="item item-thumbnail-left">
+                            <img ng-src="/img/race.jpg">
+                            <h2>{{ r.Name }}</h2>
+                            <h4>{{ r.Distance }}km - Level: {{r.Level}}</h4>
+                            <h4>Starts at: {{ r.Date }}</h4>
+                            <h4>Start place: {{ r.LocationIni }}</h4>
+                        </a>
+                 </div>-->
+
+
+
+
+
+            </div>
+
+        </div>
+    </ion-content>
+</ion-view>
+
+
+<script id="create.html" type="text/ng-template">
+    <ion-modal-view>
+        <ion-header-bar class="bar-calm">
+            <h1 class="title">New RACE</h1>
+            <div class="buttons">
+                <button class="button button-clear" ng-click="modal.hide()">Cancel</button>
+            </div>
+        </ion-header-bar>
+        <ion-content class="padding"> <br>
+            <form name="raceForm">
+                <div class="list">
+                    <label class="item item-input">
+                        <span class="input-label">Name</span>
+                        <input type="text" placeholder="Nombre de tu carrera" ng-minlength="1" ng-maxlength="100" name="Name" required ng-model="Name2">
+                    </label>
+                    <label class="item item-input">
+                        <span class="input-label">Level</span>
+                        <!--input type="text" placeholder="Beginner/Medium/High" ng-minlength="1" ng-maxlength="100" name="Level" required ng-model="Level2"-->
+                      <select ng-model="Level2" ng-init="Level2='Beginner'">
+                            <option required selected value="Beginner">Beginner</option>
+                            <option required value="Initiated">Initiated</option>
+                            <option required value="Professional">Professional</option>
+                        </select>
+                    </label>
+                    <label class="item item-input">
+                        <span class="input-label">Inicio</span>
+                        <input type="text" placeholder="Punto de origen de tu carrera (calle, número, población)"  ng-minlength="1" ng-maxlength="100" name="LocationIni" required ng-model="LocationIni">
+                    </label>
+                    <label class="item item-input">
+                        <span class="input-label">Final</span>
+                        <input type="text" placeholder="Punto de Final de tu carrera (calle, número, población)" googleplace ng-minlength="1" ng-maxlength="100" name="LocationFin" required ng-model="LocationFin">
+                    </label>
+                    <label class="item item-input">
+                        <span class="input-label">Type</span>
+                        <input type="text" placeholder="Entrenamiento, prueba.." ng-minlength="1" ng-maxlength="100" name="Type" required ng-model="Type">
+                    </label>
+                    <label class="item item-input">
+                        <span class="input-label">Date</span>
+                        <input type="Date" placeholder="fecha." ng-minlength="1" ng-maxlength="100" name="Fecha" required ng-model="Fecha">
+                    </label>
+                    <label class="item item-input">
+                        <span class="input-label">Hora</span>
+                        <input type="time" placeholder="hora..." ng-minlength="1" ng-maxlength="100" name="Hora" required ng-model="Hora">
+                    </label>
+                </div>
+                <div class="padding">
+                    <button class="button button-block button-balanced" ng-disabled="raceForm.$invalid" ng-click="okRace()" >Create Race</button>
+                </div>
+            </form>
+        </ion-content>
+    </ion-modal-view>
+</script>
+<script id="update.html" type="text/ng-template">
+    <ion-modal-view>
+        <ion-header-bar class="bar-calm">
+            <h1 class="title">Update RACE</h1>
+            <div class="buttons">
+                <button class="button button-clear" ng-click="modal2.hide()">Cancel</button>
+            </div>
+        </ion-header-bar>
+        <ion-content class="padding"> <br>
+            <form name="raceForm">
+                <div class="list" >
+                    <label class="item item-input">
+                        <span class="input-label">Name</span>
+                        <input type="text" placeholder="Nombre de tu carrera" ng-minlength="1" ng-maxlength="100" name="Name" required ng-model="Name2">
+                    </label>
+                    <label class="item item-input">
+                        <span class="input-label">Level</span>
+                        <!--input type="text" placeholder="Beginner/Medium/High" ng-minlength="1" ng-maxlength="100" name="Level" required ng-model="Level2"-->
+                        <select ng-model="Level2" ng-init="Level2='Beginner'">
+                            <option required selected value="Beginner">Beginner</option>
+                            <option required value="Initiated">Initiated</option>
+                            <option required value="Professional">Professional</option>
+                        </select>
+                    </label>
+                    <label class="item item-input">
+                        <span class="input-label">Inicio</span>
+                        <input type="text" placeholder="Punto de origen de tu carrera (calle, número, población)"  ng-minlength="1" ng-maxlength="100" name="LocationIni" required ng-model="LocationIni">
+                    </label>
+                    <label class="item item-input">
+                        <span class="input-label">Final</span>
+                        <input type="text" placeholder="Punto de Final de tu carrera (calle, número, población)" googleplace ng-minlength="1" ng-maxlength="100" name="LocationFin" required ng-model="LocationFin">
+                    </label>
+                    <label class="item item-input">
+                        <span class="input-label">Type</span>
+                        <input type="text" placeholder="Entrenamiento, prueba.." ng-minlength="1" ng-maxlength="100" name="Type" required ng-model="Type">
+                    </label>
+                    <label class="item item-input">
+                        <span class="input-label">Date</span>
+                        <input type="Date" placeholder="fecha." ng-minlength="1" ng-maxlength="100" name="Fecha" required ng-model="Fecha">
+                    </label>
+                    <label class="item item-input">
+                        <span class="input-label">Hora</span>
+                        <input type="time" placeholder="hora..." ng-minlength="1" ng-maxlength="100" name="Hora" required ng-model="Hora">
+                    </label>
+                </div>
+                <div class="padding">
+                    <button class="button button-block button-balanced" ng-disabled="raceForm.$invalid" ng-click="okUpdate()">Update Race</button>
+                </div>
+            </form>
+        </ion-content>
+    </ion-modal-view>
+</script>
+

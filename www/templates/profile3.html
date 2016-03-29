@@ -1,0 +1,56 @@
+<ion-view view-title="Profile">
+    <ion-content>
+        <div align="center">
+            <img  src="img/runner.gif"  class="img-rounded"/>
+            <h2>User information</h2>
+            <div ng-init='getUser()'>
+                <ul> <h4> {{users.Name}} </h4> Username: {{users.Username}}   <br> Email: {{users.Email}} <br> Level: {{users.Level}}
+                    <br> Gender: {{users.Gender}} <br> Birthdate: {{users.Birthdate}} <br></ul>
+            </div>
+            <br><br>
+            <button class="button button-outline button-positive" ng-click="openModalUpdate()">
+                Update
+            </button>
+            <button class="button button-outline button-assertive" ng-click="openModalDelete()" >
+                Delete
+            </button>
+
+            <script id="update.html" type="text/ng-template">
+                <ion-modal-view>
+                    <ion-header-bar class="bar bar-header bar-positive">
+                        <h1 class="title">Update User</h1>
+                        <button class="button button-energized" ng-click="okUpdate()">Update</button>
+                        <button class="button button-clear" ng-click="closeModalUpdate()"><span class="icon ion-close"></span></button>
+                    </ion-header-bar>
+                    <ion-content align="center">
+                        <h4 class="title">Puede actualizar un dato o los que quiera</h4>
+                        Username:  <input type="text"     placeholder="Username" class="form-control"  name="Username" required ng-model="updateUser.Username"/>
+                        Password:  <input type="password" placeholder="Password" class="form-control" name="Password" required ng-model="updateUser.Password"/>
+                        Name:      <input type="text"     placeholder="Name"  class="form-control" name="Name" required ng-model="updateUser.Name"/>
+                        Surname:   <input type="text"     placeholder="Surname" class="form-control" name="Surname" required  ng-model="updateUser.Surname"/>
+                        Email:     <input type="email"    placeholder="nombre@dominio" class="form-control"  name="Email" required ng-model="updateUser.Email"/>
+                        Birthdate: <input type="date"     placeholder="Birthdate" class="form-control" name="Birthdate" required  ng-model="updateUser.Birthdate"/>
+                        Level:     <input type="text"     placeholder="Beginner/Medium/High" class="form-control" name="Level" required  ng-model="updateUser.Level"/>
+                    </ion-content>
+                </ion-modal-view>
+            </script>
+
+            <script id="delete.html" type="text/ng-template">
+                <ion-modal-view>
+                    <ion-header-bar class="bar bar-header bar-assertive">
+                        <h1 class="title">Delete User</h1>
+
+                    </ion-header-bar>
+                    <ion-content align="center">
+                        <br><br><br><br>
+                        <h1> Are you sure to delete this user?</h1>
+                        <br><br>
+                        <button class="button button-balanced" ng-click="closeModalDelete()">No</button>
+                        <button class="button button-assertive" ng-click="okDelete()">Yes</button>
+
+                    </ion-content>
+                </ion-modal-view>
+            </script>
+        </div>
+    </ion-content>
+</ion-view>

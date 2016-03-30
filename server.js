@@ -18,7 +18,7 @@ app.configure(function() {
 });
 
 // Cargamos los endpoints
-require('./routes/users.js')(app);
+routes = require('./routes/users.js')(app);
 
 // Cogemos el puerto para escuchar
 app.listen(port);

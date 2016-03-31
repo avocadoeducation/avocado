@@ -1,0 +1,15 @@
+connect.multipart() will be removed in connect 3.0
+visit https://github.com/senchalabs/connect/wiki/Connect-3.0 for alternatives
+connect.limit() will be removed in connect 3.0
+APP por el puerto 8080
+[90mGET /css/bootstrap.min.css [33m404 [90m6ms[0m
+[90mGET /css/login.css [33m404 [90m0ms[0m
+[90mGET /lib/ionic/js/angular/angular-resource.js [33m404 [90m1ms[0m
+[90mGET /js/angular-chart.min.js [33m404 [90m1ms[0m
+[90mGET /js/controllers.js [33m404 [90m0ms[0m
+[90mGET /js/races.js [33m404 [90m1ms[0m
+[90mGET /js/groups.js [33m404 [90m0ms[0m
+[90mGET /js/userlist.js [33m404 [90m1ms[0m
+[90mGET /js/messages.js [33m404 [90m0ms[0m
+[90mGET /js/groupraces.js [33m404 [90m0ms[0m
+[90mGET /js/backoffice.js [33m404 [90m1ms[0m

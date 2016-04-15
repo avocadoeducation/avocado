@@ -22,7 +22,7 @@
         }
 
         function saveCenter() {
-            CenterService.Update(vm.center)
+            CenterService.Create(vm.center)
                 .then(function () {
                     FlashService.Success('User updated');
                 })

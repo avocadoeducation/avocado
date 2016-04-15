@@ -5,7 +5,7 @@ var centerService = require('services/center.service');
 
 // routes
 router.post('/register', registerCenter);
-router.get('/current', getCurrentCenter);
+router.get('/current', getCurrentUser);
 router.put('/:_id', updateCenter);
 router.delete('/:_id', deleteCenter);
 
@@ -22,8 +22,8 @@ function registerCenter(req, res) {
         });
 }
 
-function getCurrentCenter(req, res) {
-    centerService.getById(req.center.sub)
+function getCurrentUser(req, res) {
+    userService.getById(req.center.sub)
         .then(function (user) {
             if (user) {
                 res.send(user);

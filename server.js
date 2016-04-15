@@ -1,26 +1,33 @@
-// Inicialización
-var express  = require('express');
-var app      = express(); 					// Utilizamos express
-var mongoose = require('mongoose'); 				// mongoose para mongodb
-var port  	 = process.env.PORT || 8080; 			// Cogemos el puerto 8080
+﻿require('rootpath')();
+var express = require('express');
+var app = express();
+var session = require('express-session');
+var bodyParser = require('body-parser');
+var expressJwt = require('express-jwt');
+var config = require('config.json');
 
-// Configuracion
-mongoose.connect('mongodb://localhost:27017/MeanExample'); 	// Hacemos la conexión a la base de datos de Mongo con nombre "MeanExample"
+app.set('view engine', 'ejs');
+app.set('views', __dirname + '/views');
+app.use(express.static(__dirname + '/views/partials'));
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(session({ secret: config.secret, resave: false, saveUninitialized: true }));
+// use JWT auth to secure the api
+app.use('/api', expressJwt({ secret: config.secret }).unless({ path: ['/api/users/authenticate', '/api/users/register'] }));
 
-app.configure(function() {
-	app.use(express.static(__dirname + '/angular')); 		
-	app.use(express.logger('dev')); 			// activamos el log en modo 'dev'
-	app.use(express.bodyParser());
-	app.use(express.methodOverride());
-});
-app.use(express.static('www'));
+// routes
+app.use('/login', require('./controllers/login.controller'));
+app.use('/register', require('./controllers/register.controller'));
+app.use('/app', require('./controllers/app.controller'));
+app.use('/api/users', require('./controllers/api/users.controller'));
+app.use('/api/centers', require('./controllers/api/centers.controller'));
+
+// make '/app' default route
 app.get('/', function (req, res) {
-    res.sendfile('./wwww/index.html');
+    return res.redirect('/app');
 });
 
-// Cargamos los endpoints
-routes = require('./routes/users.js')(app);
-
-// Cogemos el puerto para escuchar
-app.listen(port);
-console.log("APP por el puerto " + port);
+// start server
+var server = app.listen(3000, function () {
+    console.log('Server listening at http://' + server.address().address + ':' + server.address().port);
+});

@@ -1,0 +1,171 @@
+﻿<img src="app-content/loreal.png" style="width:30%;margin-top:30px" /> 
+<div class="form-container">
+<div class="container">
+<div class="row" style="padding:30px">
+	<div class="col-sm-6">
+		<div class="dataTables_length" id="example_length">
+		 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Nuevo centro</button>
+
+	</div>
+	</div>
+	<div class="col-sm-6">
+		<div class="input-group">
+  			<input type="text" class="form-control input-sm" placeholder="Search" aria-controls="example">
+  			<span class="input-group-addon glyphicon glyphicon-search" id="basic-addon2"></span>
+		</div>
+	</div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" 
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <button type="button" class="close" 
+                   data-dismiss="modal">
+                       <span aria-hidden="true">&times;</span>
+                       <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    Nuevo centro
+                </h4>
+            </div>
+            
+            <!-- Modal Body -->
+            <div class="modal-body">
+                
+             <form name="myForm">
+                    <div class="form-group">
+    <input type="text" class="form-control input-lg text-center" placeholder="Nombre" ng-model="newCenter.nombre" required>
+                                                <br>
+ <input type="text" class="form-control input-lg text-center" placeholder="direccion" ng-model="newCenter.direccion" required>
+                                                <br>
+   <input type="text" class="form-control input-lg text-center" placeholder="email" ng-model="newCenter.email" required>
+                                                <br>
+ <input type="text" class="form-control input-lg text-center" placeholder="ciudad" ng-model="newCenter.ciudad" required>
+                                        </div>
+</div>
+            <!-- Modal Footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default"
+                        data-dismiss="modal">
+                            Close
+                </button>
+                <button type="button" class="btn btn-primary" ng-click="vm.saveCenter()" ng-disabled="myForm.$invalid || selected">
+                    Registar
+                </button>
+            </form>
+		</div>
+        </div>
+    </div>
+</div>
+<table id="example" class="table table-hover table-bordered" margin-top="10px" width="100%">
+        <thead>
+            <tr>
+                <th>Centro</th>
+                <th>Ciudad</th>
+                <th>Dirección</th>
+                <th>Email</th>
+                <th>Telefono</th>
+                <th>Opciones</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+           	<th>Centro</th>
+                <th>Ciudad</th>
+                <th>Dirección</th>
+                <th>Email</th>
+                <th>Telefono</th>
+                <th>Opciones</th>
+	   </tr>
+        </tfoot>
+        <tbody>
+            <tr>
+                <td>Tiger Nixon</td>
+                <td>System Architect</td>
+                <td>Edinburgh</td>
+                <td>61</td>
+                <td>2011/04/25</td>
+                <td><button> <icon class="glyphicon glyphicon-pencil"> </button>
+			<button> <icon class="glyphicon glyphicon-remove"> </button>
+		</td>
+            </tr>
+            <tr>
+                <td>Garrett Winters</td>
+                <td>Accountant</td>
+                <td>Tokyo</td>
+                <td>63</td>
+                <td>2011/07/25</td>
+            	<td><button> <icon class="glyphicon glyphicon-pencil"> </button> 
+			<button> <icon class="glyphicon glyphicon-remove"> </button>
+		</td>
+		</tr>
+            <tr>
+                <td>Ashton Cox</td>
+                <td>Junior Technical Author</td>
+                <td>San Francisco</td>
+                <td>66</td>
+                <td>2009/01/12</td>
+            <td><button> <icon class="glyphicon glyphicon-pencil"> </button>
+		</td>
+	
+		</tr>
+            <tr>
+                <td>Cedric Kelly</td>
+                <td>Senior Javascript Developer</td>
+                <td>Edinburgh</td>
+                <td>22</td>
+                <td>2012/03/29</td>
+            <td><button> <icon class="glyphicon glyphicon-pencil"> </button>
+		</td>
+		</tr>
+            <tr>
+                <td>Airi Satou</td>
+                <td>Accountant</td>
+                <td>Tokyo</td>
+                <td>33</td>
+                <td>2008/11/28</td>
+            <td><button> <icon class="glyphicon glyphicon-pencil"> </button>
+</td>
+		</tr>
+            <tr>
+                <td>Brielle Williamson</td>
+                <td>Integration Specialist</td>
+                <td>New York</td>
+                <td>61</td>
+                <td>2012/12/02</td>
+        	<td><button> <icon class="glyphicon glyphicon-pencil"> </button></td>    
+		</tr>
+            <tr>
+                <td>Herrod Chandler</td>
+                <td>Sales Assistant</td>
+                <td>San Francisco</td>
+                <td>59</td>
+                <td>2012/08/06</td>
+		<td><button> <icon class="glyphicon glyphicon-pencil"> </button>
+		</td>            
+</tr>
+            <tr>
+                <td>Rhona Davidson</td>
+                <td>Integration Specialist</td>
+                <td>Tokyo</td>
+                <td>55</td>
+                <td>2010/10/14</td>
+            <td><button> <icon class="glyphicon glyphicon-pencil"> </button>
+		</td>
+		</tr>
+            <tr>
+                <td>Colleen Hurst</td>
+                <td>Javascript Developer</td>
+                <td>San Francisco</td>
+                <td>39</td>
+                <td>2009/09/15</td>
+        	<td><button> <icon class="glyphicon glyphicon-pencil"> </button>
+		</td>    
+	</tr>
+        </tbody>
+    </table>
+</div>

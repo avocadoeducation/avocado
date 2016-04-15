@@ -1,4 +1,11 @@
 'use strict';
+var MapApp = angular.module('MapApp', []);
+
+//var URL='https://localhost:3030/';
+//var URL='https://192.168.1.139:3030/';
+var URL='http://164.132.225.172:8080/';
+
+
 /**
  * HEADER - handle menu toggle
  */

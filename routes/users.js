@@ -273,7 +273,7 @@ module.exports = function (app) {
 
 
     //Link routes and functions
-    app.get('/user', findAllUsers);
+    app.get('/users', findAllUsers);
     app.get('/user/:id', findByID);
     app.post('/user', addUser);
     app.post('/user/auth', authenticate);

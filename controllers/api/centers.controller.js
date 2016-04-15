@@ -2,9 +2,9 @@
 var express = require('express');
 var router = express.Router();
 var centerService = require('services/center.service');
-
+var userService = require('services/user.service');
 // routes
-router.post('/register', registerCenter);
+router.post('/', registerCenter);
 router.get('/current', getCurrentUser);
 router.put('/:_id', updateCenter);
 router.delete('/:_id', deleteCenter);

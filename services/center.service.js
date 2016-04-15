@@ -2,6 +2,7 @@
 var mongo = require('mongodb');
 var monk = require('monk');
 var db = monk(config.connectionString);
+var usersDb = db.get('users');
 var centersDb = db.get('centers');
 var _ = require('lodash');
 var jwt = require('jsonwebtoken');
@@ -60,10 +61,10 @@ function create(centerParam) {
     // validation
     centersDb.findOne(
         { name: centerParam.name },
-        function (err, user) {
+        function (err, center) {
             if (err) deferred.reject(err);
 
-            if (user) {
+            if (center) {
                 // username already exists
                 deferred.reject('Username "' + centerParam.name + '" is already taken');
             } else {
@@ -73,7 +74,7 @@ function create(centerParam) {
 
     function createCenter() {
         // set user object to userParam without the cleartext password
-        centerssDb.insert(
+        centersDb.insert(
             center,
             function (err, doc) {
                 if (err) deferred.reject(err);
